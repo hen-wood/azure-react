@@ -8,7 +8,7 @@ class TestApiService {
 			baseURL:
 				NODE_ENV === "development"
 					? "http://localhost:8081/api/test"
-					: "https://henwood.azurewebsites.net/api/test",
+					: "/api/test",
 			headers: {
 				"Content-Type": "application/json"
 			}
