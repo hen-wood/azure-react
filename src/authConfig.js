@@ -76,16 +76,18 @@ export const msalConfig = {
 };
 
 // Scopes you add here will be prompted for consent during login
-export const loginRequest = {
-	scopes: [
-		"https://henwoodb2c.onmicrosoft.com/4741d403-1c18-4c2b-a1a7-c37a0ae5226d/read"
-	]
-};
+export const loginRequest = {};
 
 /**
  * Enter here the coordinates of your web API and scopes for access token request
  * The current application coordinates were pre-registered in a B2C tenant.
  */
+
+export const apiConfig = {
+	scopes: [
+		"https://henwoodb2c.onmicrosoft.com/4741d403-1c18-4c2b-a1a7-c37a0ae5226d/read"
+	]
+};
 // export const apiConfig = {
 // 	scopes: ["https://msidlabb2c.onmicrosoft.com/msidlabb2capi/read"],
 // 	uri: "https://msidlabb2c.onmicrosoft.com/msidlabb2capi"

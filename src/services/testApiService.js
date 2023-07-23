@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginRequest } from "../authConfig";
+import { apiConfig } from "../authConfig";
 const NODE_ENV = import.meta.env.MODE;
 
 class TestApiService {
@@ -23,7 +23,7 @@ class TestApiService {
 
 		try {
 			const tokenResponse = await instance.acquireTokenSilent({
-				...loginRequest,
+				...apiConfig,
 				account
 			});
 

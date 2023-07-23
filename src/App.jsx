@@ -25,9 +25,6 @@ function App() {
 		setWelcomeMessage(message);
 	};
 
-	const handleTestTime = async () => {
-		const res = await testApiService.testTime(instance);
-	};
 	return (
 		<>
 			<div
@@ -41,7 +38,6 @@ function App() {
 				}}
 			>
 				<h1 style={{ textAlign: "center" }}>{welcomeMessage}</h1>
-				<button onClick={handleTestTime}>Test Time</button>
 				<button onClick={handleTestCallProtected}>Test Call (protected)</button>
 				<button onClick={handleTestCallNonProtected}>
 					Test Call (non-protected)
