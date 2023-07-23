@@ -1,10 +1,14 @@
 import axios from "axios";
 import { loginRequest } from "../authConfig";
+const NODE_ENV = import.meta.env.MODE;
 
 class TestApiService {
 	constructor() {
 		this.service = axios.create({
-			baseURL: "http://localhost:8081/api/test",
+			baseURL:
+				NODE_ENV === "development"
+					? "http://localhost:8081/api/test"
+					: "https://henwood.azurewebsites.net/api/test",
 			headers: {
 				"Content-Type": "application/json"
 			}
@@ -22,6 +26,7 @@ class TestApiService {
 				...loginRequest,
 				account
 			});
+
 			const { data } = await this.service.get("/protected", {
 				headers: {
 					Authorization: "Bearer " + tokenResponse.accessToken
@@ -34,6 +39,7 @@ class TestApiService {
 	}
 
 	async callNonProtected() {
+		console.log(NODE_ENV);
 		try {
 			const { data } = await this.service.get("/nonprotected");
 			return data;

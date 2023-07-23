@@ -8,6 +8,7 @@ export default function SignInButton() {
 		instance
 			.loginPopup(loginRequest)
 			.then(res => {
+				console.log({res})
 				instance.setActiveAccount(res.account);
 			})
 			.catch(console.log);
