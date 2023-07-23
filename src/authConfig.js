@@ -10,6 +10,7 @@ const firefox = ua.indexOf("Firefox");
 const isIE = msie > 0 || msie11 > 0;
 const isEdge = msedge > 0;
 const isFirefox = firefox > 0; // Only needed if you need to support the redirect flow in Firefox incognito
+const isDev = import.meta.env.MODE === "development";
 
 /**
  * Enter here the user flows and custom policies for your B2C application
@@ -35,8 +36,12 @@ export const msalConfig = {
 		clientId: "ad65ce17-db8b-411f-9a68-3643abe2929f",
 		authority: b2cPolicies.authorities.signUpSignIn.authority,
 		knownAuthorities: [b2cPolicies.authorityDomain],
-		redirectUri: "http://localhost:5173",
-		postLogoutRedirectUri: "http://localhost:5173"
+		redirectUri: isDev
+			? "http://localhost:5173"
+			: "https://yellow-sky-0cd6c730f.3.azurestaticapps.net/",
+		postLogoutRedirectUri: isDev
+			? "http://localhost:5173"
+			: "https://yellow-sky-0cd6c730f.3.azurestaticapps.net/"
 	},
 	cache: {
 		cacheLocation: "localStorage",
