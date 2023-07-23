@@ -1,45 +1,82 @@
 import axios from "axios";
 import { apiConfig } from "../authConfig";
-const NODE_ENV = import.meta.env.MODE;
+const baseURL =
+	import.meta.env.MODE === "development"
+		? "http://localhost:8081/api/test"
+		: "/api/test";
 
-class TestApiService {
-	constructor() {
+export default class TestApiService {
+	constructor(msalInstance, account) {
+		this.msalInstance = msalInstance;
 		this.service = axios.create({
-			baseURL:
-				NODE_ENV === "development"
-					? "http://localhost:8081/api/test"
-					: "/api/test",
+			baseURL,
 			headers: {
 				"Content-Type": "application/json"
 			}
 		});
+		this.account = account;
 	}
 
-	async callProtected(instance, isAuthenticated) {
-		if (!isAuthenticated)
-			return { message: "This resource requires authentication" };
+	async getAccessToken() {
+		if (this.account) {
+			try {
+				const tokenResponse = await this.msalInstance.acquireTokenSilent({
+					...apiConfig,
+					account: this.account
+				});
+				return tokenResponse.accessToken;
+			} catch (error) {
+				return "";
+			}
+		}
+	}
 
-		const account = instance.getAllAccounts()[0];
-
+	async callProtectedBasic() {
+		const accessToken = await this.getAccessToken();
 		try {
-			const tokenResponse = await instance.acquireTokenSilent({
-				...apiConfig,
-				account
-			});
-
-			const { data } = await this.service.get("/protected", {
+			const { data } = await this.service.get("/protected/basic", {
 				headers: {
-					Authorization: "Bearer " + tokenResponse.accessToken
+					Authorization: `Bearer ${accessToken}`
 				}
 			});
 			return data;
 		} catch (error) {
-			return error;
+			const { data } = error.response;
+			return data;
+		}
+	}
+
+	async callProtectedPremium() {
+		const accessToken = await this.getAccessToken();
+		try {
+			const { data } = await this.service.get("/protected/premium", {
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			});
+			return data;
+		} catch (error) {
+			const { data } = error.response;
+			return data;
+		}
+	}
+
+	async callProtected() {
+		const accessToken = await this.getAccessToken();
+		try {
+			const { data } = await this.service.get("/protected", {
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			});
+			return data;
+		} catch (error) {
+			const { data } = error.response;
+			return data;
 		}
 	}
 
 	async callNonProtected() {
-		console.log(NODE_ENV);
 		try {
 			const { data } = await this.service.get("/nonprotected");
 			return data;
@@ -48,5 +85,3 @@ class TestApiService {
 		}
 	}
 }
-
-export const testApiService = new TestApiService();

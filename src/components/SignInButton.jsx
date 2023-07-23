@@ -13,5 +13,9 @@ export default function SignInButton() {
 			})
 			.catch(console.log);
 	};
-	return <button onClick={handleLogin}>Sign in</button>;
+	return (
+		<button style={{ margin: "10px" }} onClick={handleLogin}>
+			Sign in
+		</button>
+	);
 }
