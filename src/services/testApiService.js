@@ -1,20 +1,17 @@
 import axios from "axios";
 import { apiConfig } from "../authConfig";
-const baseURL =
-	import.meta.env.MODE === "development"
-		? "http://localhost:8081/api/test"
-		: "/api/test";
+const isDev = import.meta.env.DEV;
+const baseURL = isDev ? "http://localhost:8081/api/test" : "/api/test";
+const headers = { "Content-Type": "application/json" };
 
 export default class TestApiService {
 	constructor(msalInstance, account) {
 		this.msalInstance = msalInstance;
+		this.account = account;
 		this.service = axios.create({
 			baseURL,
-			headers: {
-				"Content-Type": "application/json"
-			}
+			headers
 		});
-		this.account = account;
 	}
 
 	async getAccessToken() {
