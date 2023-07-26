@@ -3,7 +3,7 @@ import SignOutButton from "./SignOutButton";
 import SignInButton from "./SignInButton";
 import { useIsAuthenticated } from "@azure/msal-react";
 
-import { nav, outerContainer } from "../styles";
+import { innerContainer, nav, outerContainer } from "../styles";
 
 export default function Layout() {
 	const isAuthenticated = useIsAuthenticated();
@@ -11,8 +11,7 @@ export default function Layout() {
 	const navEndPoints = [
 		{ endPoint: "/", pageName: "Home" },
 		{ endPoint: "/subscriptions", pageName: "Subscriptions" },
-		{ endPoint: "/testcalls", pageName: "Test Calls" },
-		{ endPoint: "/success", pageName: "Success" }
+		{ endPoint: "/testcalls", pageName: "Test Calls" }
 	];
 
 	return (
@@ -25,7 +24,7 @@ export default function Layout() {
 				))}
 				{isAuthenticated ? <SignOutButton /> : <SignInButton />}
 			</nav>
-			<div style={outerContainer}>
+			<div style={innerContainer}>
 				<Outlet />
 			</div>
 		</div>

@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./CheckoutForm";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
+
+import CheckoutForm from "./CheckoutForm";
+
 import StripeApiService from "../services/stripeApiService";
 
 const publicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
 const stripePromise = loadStripe(publicKey);
 
 export default function Checkout() {
+	const navigate = useNavigate();
 	const { instance, accounts } = useMsal();
 	const user = accounts[0];
 
@@ -18,7 +20,6 @@ export default function Checkout() {
 
 	const { productId } = useParams();
 
-	const [customer, setCustomer] = useState(null);
 	const [options, setOptions] = useState(null);
 
 	useEffect(() => {
@@ -26,19 +27,20 @@ export default function Checkout() {
 	}, []);
 
 	const loadCheckout = async () => {
-		const stripeCustomer = await stripeService.createCustomer();
-		setCustomer(stripeCustomer);
-
 		const { id } = await stripeService.getSinglePrice(productId);
 
 		const stripeSubscription = await stripeService.createSubscription(id);
+
+		if (stripeSubscription.message) {
+			return navigate("/error/existing-subscription");
+		}
 
 		setOptions({
 			clientSecret: stripeSubscription.clientSecret
 		});
 	};
 
-	return customer && options ? (
+	return options ? (
 		<Elements stripe={stripePromise} options={options}>
 			<CheckoutForm />
 		</Elements>

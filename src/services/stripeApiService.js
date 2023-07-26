@@ -45,31 +45,14 @@ export default class StripeApiService {
 		}
 	}
 
-	async createCustomer() {
-		const authToken = await this.getAccessToken();
-		try {
-			const { data } = await this.instance.post(
-				`/create-customer`,
-				{},
-				{ headers: { Authorization: "Bearer " + authToken } }
-			);
-
-			return data;
-		} catch (error) {
-			console.log({ error });
-			return error;
-		}
-	}
-
 	async createSubscription(priceId) {
 		const authToken = await this.getAccessToken();
 		try {
 			const { data } = await this.instance.post(
-				`/create-subscription`,
+				"/create-subscription",
 				{ priceId },
 				{ headers: { Authorization: "Bearer " + authToken } }
 			);
-			console.log(data);
 			return data;
 		} catch (error) {
 			console.log({ error });
