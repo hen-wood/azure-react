@@ -6,7 +6,7 @@ export default function SignInButton() {
 
 	const handleLogin = () => {
 		instance
-			.loginPopup(loginRequest)
+			.loginPopup()
 			.then(res => {
 				console.log({ res });
 				instance.setActiveAccount(res.account);

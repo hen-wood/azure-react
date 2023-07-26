@@ -11,7 +11,8 @@ export default function Layout() {
 	const navEndPoints = [
 		{ endPoint: "/", pageName: "Home" },
 		{ endPoint: "/subscriptions", pageName: "Subscriptions" },
-		{ endPoint: "/testcalls", pageName: "Test Calls" }
+		{ endPoint: "/testcalls", pageName: "Test Calls" },
+		{ endPoint: "/success", pageName: "Success" }
 	];
 
 	return (

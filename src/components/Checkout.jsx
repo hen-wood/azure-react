@@ -13,10 +13,13 @@ const stripePromise = loadStripe(publicKey);
 export default function Checkout() {
 	const { instance, accounts } = useMsal();
 	const user = accounts[0];
+
 	const stripeService = new StripeApiService(instance, user);
+
 	const { productId } = useParams();
-	const [options, setOptions] = useState(null);
+
 	const [customer, setCustomer] = useState(null);
+	const [options, setOptions] = useState(null);
 
 	useEffect(() => {
 		loadCheckout();

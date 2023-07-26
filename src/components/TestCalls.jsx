@@ -29,18 +29,6 @@ export default function TestCalls() {
 		setResponseMessage(message);
 	};
 
-	const handleTestCallProtectedBasic = async () => {
-		setResponseMessage("Loading from backend...");
-		const { message } = await testApiService.callProtectedBasic();
-		setResponseMessage(message);
-	};
-
-	const handleTestCallProtectedPremium = async () => {
-		setResponseMessage("Loading from backend...");
-		const { message } = await testApiService.callProtectedPremium();
-		setResponseMessage(message);
-	};
-
 	return (
 		<>
 			<h2 style={{ textAlign: "center" }}>{welcomeMessage}</h2>
@@ -58,19 +46,6 @@ export default function TestCalls() {
 				</button>
 				<button style={{ margin: "10px" }} onClick={handleTestCallProtected}>
 					Test Call (protected - require auth)
-				</button>
-				<button
-					style={{ margin: "10px" }}
-					onClick={handleTestCallProtectedBasic}
-				>
-					Test Call (protected - require basic sub)
-				</button>
-
-				<button
-					style={{ margin: "10px" }}
-					onClick={handleTestCallProtectedPremium}
-				>
-					Test Call (protected - require premium sub)
 				</button>
 			</div>
 		</>

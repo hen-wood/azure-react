@@ -3,10 +3,10 @@ import {
 	useElements,
 	PaymentElement
 } from "@stripe/react-stripe-js";
-import StripeApiService from "../services/stripeApiService";
+
+const baseURL = "http://localhost:5173";
 
 const CheckoutForm = () => {
-	const stripeService = new StripeApiService();
 	const stripe = useStripe();
 	const elements = useElements();
 
@@ -14,7 +14,7 @@ const CheckoutForm = () => {
 		// We don't want to let default form submission happen here,
 		// which would refresh the page.
 		event.preventDefault();
-		const { clientSecret } = await stripeService.getSecret();
+		const { clientSecret } = elements._commonOptions.clientSecret;
 
 		if (!stripe || !elements) {
 			// Stripe.js hasn't yet loaded.
@@ -29,7 +29,7 @@ const CheckoutForm = () => {
 			elements,
 			clientSecret,
 			confirmParams: {
-				return_url: "https://example.com/order/123/complete"
+				return_url: baseURL + "/success"
 			}
 		});
 

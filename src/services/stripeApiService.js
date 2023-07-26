@@ -25,16 +25,6 @@ export default class StripeApiService {
 		}
 	}
 
-	async getSecret() {
-		try {
-			const { data } = await this.instance.get("/secret");
-			return data;
-		} catch (error) {
-			console.log({ error });
-			return error;
-		}
-	}
-
 	async getProducts() {
 		try {
 			const { data } = await this.instance.get("/products");

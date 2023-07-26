@@ -28,36 +28,6 @@ export default class TestApiService {
 		}
 	}
 
-	async callProtectedBasic() {
-		const accessToken = await this.getAccessToken();
-		try {
-			const { data } = await this.service.get("/protected/basic", {
-				headers: {
-					Authorization: `Bearer ${accessToken}`
-				}
-			});
-			return data;
-		} catch (error) {
-			const { data } = error.response;
-			return data;
-		}
-	}
-
-	async callProtectedPremium() {
-		const accessToken = await this.getAccessToken();
-		try {
-			const { data } = await this.service.get("/protected/premium", {
-				headers: {
-					Authorization: `Bearer ${accessToken}`
-				}
-			});
-			return data;
-		} catch (error) {
-			const { data } = error.response;
-			return data;
-		}
-	}
-
 	async callProtected() {
 		const accessToken = await this.getAccessToken();
 		try {
